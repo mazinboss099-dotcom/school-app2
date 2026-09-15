@@ -16,7 +16,6 @@ initializeApp({
 
 const db = getFirestore();
 
-// ⚠️ غيّر كلمة السر دي لأي حاجة إنت عايزها
 const ADMIN_PASSWORD = 'school2026';
 const ADMIN_TOKEN = 'admin-secret-token-2026';
 
@@ -26,9 +25,13 @@ const io = new Server(server, { cors: { origin: '*' } });
 
 app.use(cors());
 app.use(express.json());
+
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// ------------------- Middleware حماية الإدارة -------------------
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/admin/index.html'));
+});
+
 function requireAdmin(req, res, next) {
   const token = req.headers['x-admin-token'];
   if (token !== ADMIN_TOKEN) {
@@ -37,9 +40,6 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-// ------------------- Routes -------------------
-
-// تسجيل دخول الإدارة
 app.post('/api/admin/login', (req, res) => {
   const { password } = req.body;
   if (password === ADMIN_PASSWORD) {
@@ -49,7 +49,6 @@ app.post('/api/admin/login', (req, res) => {
   }
 });
 
-// تسجيل طالب جديد
 app.post('/api/register', async (req, res) => {
   const { name, grade, parentPhone, studentPhone } = req.body;
 
@@ -70,14 +69,13 @@ app.post('/api/register', async (req, res) => {
     const docRef = await db.collection('students').add(newStudent);
     const savedStudent = { id: docRef.id, ...newStudent };
     io.emit('new-registration', savedStudent);
-    res.json({ success: true, message: 'تم إرسال طلب التسجيل بنجاح، هيتم مراجعته من الإدارة' });
+    res.json({ success: true, message: 'تم إرسال طلب التسجيل بنجاح، سيتم مراجعته من الإدارة' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'حصل خطأ في حفظ البيانات' });
   }
 });
 
-// جلب كل طلبات التسجيل (محمي)
 app.get('/api/students', requireAdmin, async (req, res) => {
   try {
     const snapshot = await db.collection('students').get();
@@ -89,7 +87,6 @@ app.get('/api/students', requireAdmin, async (req, res) => {
   }
 });
 
-// قبول أو رفض طلب تسجيل (محمي)
 app.post('/api/students/:id/status', requireAdmin, async (req, res) => {
   const { status } = req.body;
 
