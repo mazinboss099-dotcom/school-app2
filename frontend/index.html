@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مدرسة أبوذر الكودة</title>
-    <!-- ربط ملف الـ Manifest لضمان فتح التطبيق بشكل مستقل Standalone -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#0d6efd">
     <style>
@@ -12,39 +11,17 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
             color: #333;
+            text-align: center;
+            padding: 80px 20px;
             margin: 0;
-            padding: 0;
-        }
-        /* الشريط العلوي وزر الإدارة */
-        .top-bar {
-            display: flex;
-            justify-content: flex-end;
-            padding: 15px 30px;
-            background: #ffffff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .admin-btn {
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.9rem;
-            transition: background 0.3s;
-        }
-        .admin-btn:hover {
-            background-color: #5a6268;
         }
         .container {
-            max-width: 600px;
-            margin: 40px auto;
+            max-width: 500px;
+            margin: 0 auto;
             background: #ffffff;
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            text-align: center;
         }
         h1 {
             color: #0d6efd;
@@ -55,97 +32,48 @@
             margin-bottom: 30px;
             font-size: 1.1rem;
         }
-        .role-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .role-btn {
-            background-color: #e9ecef;
-            color: #333;
-            padding: 12px;
-            border: 2px solid #ced4da;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-        }
-        .role-btn:hover {
-            background-color: #0d6efd;
-            color: white;
-            border-color: #0d6efd;
-        }
-        .download-section {
-            margin-top: 30px;
-            border-top: 1px solid #dee2e6;
-            padding-top: 20px;
-        }
         .download-btn {
             display: inline-block;
-            background-color: #28a745;
+            background-color: #0d6efd;
             color: #ffffff;
-            padding: 12px 25px;
-            font-size: 1rem;
+            padding: 15px 35px;
+            font-size: 1.2rem;
             font-weight: bold;
             text-decoration: none;
             border-radius: 8px;
             transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
         }
         .download-btn:hover {
-            background-color: #218838;
+            background-color: #0b5ed7;
+        }
+        .note {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: #adb5bd;
         }
     </style>
 </head>
 <body>
 
-    <!-- الشريط العلوي وزر الإدارة -->
-    <div class="top-bar">
-        <button class="admin-btn" onclick="openAdminLogin()">⚙️ دخول الإدارة</button>
-    </div>
-
     <div class="container">
         <h1>مدرسة أبوذر الكودة</h1>
-        <p>مرحباً بك في البوابة الإلكترونية. يرجى اختيار نوع الحساب للمتابعة:</p>
+        <p>مرحباً بك في البوابة الإلكترونية وتطبيق المدرسة الرسمي.</p>
         
-        <!-- أزرار اختيار نوع المستخدم -->
-        <div class="role-buttons">
-            <a href="register.html?role=student" class="role-btn">👨‍🎓 تسجيل طالب جديد</a>
-            <a href="register.html?role=teacher" class="role-btn">👨‍🏫 تسجيل أستاذ جديد</a>
-            <a href="register.html?role=supervisor" class="role-btn">🛡️ تسجيل مشرف جديد</a>
-        </div>
+        <!-- زر التثبيت بالنص النظيف الذي طلبته -->
+        <a href="/مدرسة أبوذر.apk" class="download-btn" download>📥 تثبيت التطبيق</a>
 
-        <!-- قسم تنزيل تطبيق الأندرويد -->
-        <div class="download-section">
-            <p style="font-size: 0.95rem; margin-bottom: 15px; color: #6c757d;">قم بتحميل تطبيق المدرسة الرسمي:</p>
-            <a href="/مدرسة أبوذر.apk" class="download-btn" download>📥 تنزيل تطبيق الأندرويد (APK)</a>
+        <div class="note">
+            مستخدمو أجهزة آيفون يمكنهم إضافة الموقع إلى الشاشة الرئيسية من خيارات المتصفح.
         </div>
     </div>
 
-    <script>
-        // دالة لطلب كلمة السر الخاصة بالإدارة
-        function openAdminLogin() {
-            let password = prompt("الرجاء إدخال كلمة سر لوحة التحكم:");
-            if (password === "admin123") { // كلمة السر الافتراضية
-                window.location.href = "admin.html"; // صفحة إدارة الطلبات القادمة
-            } else if (password !== null) {
-                alert("كلمة السر غير صحيحة!");
-            }
-        }
-    </script>
-
-    <!-- تسجيل الـ Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(reg => console.log('Service Worker registered!'))
-                    .catch(err => console.log('Service Worker failed:', err));
+                navigator.serviceWorker.register('/service-worker.js');
             });
         }
     </script>
-
 </body>
 </html>
