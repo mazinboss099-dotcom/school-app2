@@ -1,0 +1,121 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Tahoma', sans-serif;
+}
+
+body {
+  background: #f1f5f9;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 380px;
+  margin: 60px auto;
+}
+
+.dashboard {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  color: #1e293b;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #334155;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+#loginMessage {
+  text-align: center;
+  margin-top: 10px;
+  color: red;
+  font-size: 14px;
+}
+
+.student-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.student-card h3 {
+  margin: 0 0 8px 0;
+  color: #1e293b;
+}
+
+.student-card p {
+  margin: 4px 0;
+  color: #475569;
+  font-size: 14px;
+}
+
+.status {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status.pending { background: #fef3c7; color: #92400e; }
+.status.approved { background: #dcfce7; color: #166534; }
+.status.rejected { background: #fee2e2; color: #991b1b; }
+
+.actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.actions button {
+  margin-top: 0;
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.approve-btn { background: #16a34a; }
+.approve-btn:hover { background: #15803d; }
+
+.reject-btn { background: #dc2626; }
+.reject-btn:hover { background: #b91c1c; }

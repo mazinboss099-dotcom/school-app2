@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة الإدارة</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- شاشة تسجيل الدخول -->
+  <div class="container" id="loginBox">
+    <h1>دخول الإدارة</h1>
+    <label for="password">كلمة السر</label>
+    <input type="password" id="password">
+    <button id="loginBtn">دخول</button>
+    <p id="loginMessage"></p>
+  </div>
+
+  <!-- لوحة الإدارة -->
+  <div class="dashboard" id="dashboard" style="display:none;">
+    <h1>طلبات التسجيل</h1>
+    <div id="studentsList"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
