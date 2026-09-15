@@ -7,7 +7,7 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#0d6efd">
     
-    <!-- كود التحويل التلقائي إذا فتح المستخدم التطبيق المثبت -->
+    <!-- كود التحويل التلقائي إذا فتح التطبيق وهو مثبت بالفعل في وضع Standalone -->
     <script>
         if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
             window.location.replace('/app.html');
@@ -40,19 +40,22 @@
             margin-bottom: 30px;
             font-size: 1.1rem;
         }
-        .download-btn {
-            display: inline-block;
+        /* زر التثبيت الحقيقي */
+        #install-btn {
+            display: none; /* مخفي لحين جاهزية المتصفح للتثبيت */
             background-color: #0d6efd;
             color: #ffffff;
+            border: none;
             padding: 15px 35px;
             font-size: 1.2rem;
             font-weight: bold;
-            text-decoration: none;
             border-radius: 8px;
+            cursor: pointer;
             transition: background-color 0.3s ease;
             box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+            margin: 0 auto;
         }
-        .download-btn:hover {
+        #install-btn:hover {
             background-color: #0b5ed7;
         }
         .note {
@@ -68,15 +71,41 @@
         <h1>مدرسة أبوذر الكودة</h1>
         <p>مرحباً بك في البوابة الإلكترونية وتطبيق المدرسة الرسمي.</p>
         
-        <!-- زر التثبيت -->
-        <a href="/مدرسة أبوذر.apk" class="download-btn" download>📥 تثبيت التطبيق</a>
+        <!-- زر تثبيت التطبيق الذكي -->
+        <button id="install-btn">📥 تثبيت التطبيق</button>
 
-        <div class="note">
-            مستخدمو أجهزة آيفون يمكنهم إضافة الموقع إلى الشاشة الرئيسية من خيارات المتصفح.
+        <div class="note" id="install-note">
+            إذا لم يظهر زر التثبيت، يمكنك تثبيت التطبيق يدويًا من قائمة المتصفح (النقاط الثلاثة) واختيار "إضافة إلى الشاشة الرئيسية" أو "تثبيت التطبيق".
         </div>
     </div>
 
+    <!-- كود تفعيل زر التثبيت الرسمي للـ PWA -->
     <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('install-btn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // منع المتصفح من إظهار النافذة تلقائياً
+            e.preventDefault();
+            deferredPrompt = e;
+            // إظهار زر التثبيت الخاص بنا
+            installBtn.style.display = 'block';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // إظهار نافذة التثبيت الرسمية للنظام
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('المستخدم وافق على تثبيت التطبيق');
+                }
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            }
+        });
+
+        // تسجيل الـ Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js');
