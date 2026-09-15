@@ -4,47 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مدرسة أبوذر الكودة</title>
+    <!-- ربط ملف الـ Manifest الخاص بالـ PWA -->
     <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0d6efd">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            text-align: center;
-            padding: 50px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
             color: #333;
+            text-align: center;
+            padding: 50px 20px;
+            margin: 0;
         }
         .container {
             max-width: 600px;
             margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
         h1 {
             color: #0d6efd;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #6c757d;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
         }
         .download-btn {
             display: inline-block;
-            margin-top: 20px;
             background-color: #0d6efd;
-            color: white;
-            padding: 12px 25px;
-            font-size: 18px;
+            color: #ffffff;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
             text-decoration: none;
-            border-radius: 5px;
-            transition: background 0.3s;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
         }
         .download-btn:hover {
             background-color: #0b5ed7;
         }
+        .note {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #adb5bd;
+        }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>مرحباً بكم في تطبيق مدرسة أبوذر الكودة</h1>
-        <p>لتسجيل الدخول، يرجى تحميل تطبيق الهاتف المحمول الخاص بالمدرسة.</p>
-        <a href="#" class="download-btn">📥 تنزيل التطبيق الآن (APK)</a>
+        <h1>مدرسة أبوذر الكودة</h1>
+        <p>مرحباً بك في البوابة الإلكترونية وتطبيق المدرسة الرسمي.</p>
+        
+        <!-- زر تحميل التطبيق المحدث -->
+        <a href="/مدرسة أبوذر.apk" class="download-btn" download>📥 تنزيل التطبيق الآن (APK)</a>
+
+        <div class="note">
+            مستخدمو الأجهزة الأخرى (مثل آيفون) يمكنهم إضافة الموقع إلى الشاشة الرئيسية مباشرة من متصفح Safari.
+        </div>
     </div>
+
+    <!-- تسجيل الـ Service Worker لتفعيل خصائص الـ PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log('Service Worker registered!', reg))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+
 </body>
 </html>
