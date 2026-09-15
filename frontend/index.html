@@ -7,7 +7,7 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#0d6efd">
     
-    <!-- كود التحويل التلقائي إذا فتح التطبيق وهو مثبت بالفعل في وضع Standalone -->
+    <!-- كود التحويل التلقائي إذا فتح التطبيق وهو مثبت في وضع Standalone -->
     <script>
         if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
             window.location.replace('/app.html');
@@ -20,7 +20,7 @@
             background-color: #f8f9fa;
             color: #333;
             text-align: center;
-            padding: 80px 20px;
+            padding: 50px 20px;
             margin: 0;
         }
         .container {
@@ -37,12 +37,11 @@
         }
         p {
             color: #6c757d;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             font-size: 1.1rem;
         }
-        /* زر التثبيت الحقيقي */
-        #install-btn {
-            display: none; /* مخفي لحين جاهزية المتصفح للتثبيت */
+        /* زر تثبيت ظاهر وثابت دائماً */
+        .install-btn {
             background-color: #0d6efd;
             color: #ffffff;
             border: none;
@@ -53,15 +52,28 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
-            margin: 0 auto;
+            display: inline-block;
+            text-decoration: none;
+            width: 100%;
+            box-sizing: border-box;
         }
-        #install-btn:hover {
+        .install-btn:hover {
             background-color: #0b5ed7;
         }
-        .note {
+        .instructions {
             margin-top: 25px;
-            font-size: 0.9rem;
-            color: #adb5bd;
+            background: #e7f1ff;
+            border: 1px solid #b6d4fe;
+            color: #084298;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            text-align: right;
+            line-height: 1.6;
+        }
+        .instructions ol {
+            margin: 5px 0 0 0;
+            padding-right: 20px;
         }
     </style>
 </head>
@@ -71,44 +83,47 @@
         <h1>مدرسة أبوذر الكودة</h1>
         <p>مرحباً بك في البوابة الإلكترونية وتطبيق المدرسة الرسمي.</p>
         
-        <!-- زر تثبيت التطبيق الذكي -->
-        <button id="install-btn">📥 تثبيت التطبيق</button>
+        <!-- زر التثبيت المباشر -->
+        <button class="install-btn" id="install-action-btn">📥 تثبيت التطبيق الآن</button>
 
-        <div class="note" id="install-note">
-            إذا لم يظهر زر التثبيت، يمكنك تثبيت التطبيق يدويًا من قائمة المتصفح (النقاط الثلاثة) واختيار "إضافة إلى الشاشة الرئيسية" أو "تثبيت التطبيق".
+        <!-- إرشادات واضحة وسريعة لضمان التثبيت المستقل كـ PWA -->
+        <div class="instructions">
+            <strong>طريقة التثبيت الصحيحة (بدون أشرطة متصفح):</strong>
+            <ol>
+                <li>اضغط على زر **النقاط الثلاثة (⋮)** في أعلى متصفح الهاتف.</li>
+                <li>اختر من القائمة **"إضافة إلى الشاشة الرئيسية" (Add to Home screen)** أو **"تثبيت التطبيق" (Install app)**.</li>
+                <li>تأكد من الموافقة ليظهر التطبيق كأيقونة مستقلة تماماً على شاشة هاتفك!</li>
+            </ol>
         </div>
     </div>
 
-    <!-- كود تفعيل زر التثبيت الرسمي للـ PWA -->
+    <!-- كود تفعيل التثبيت التلقائي أو إظهار رسالة التوجيه -->
     <script>
         let deferredPrompt;
-        const installBtn = document.getElementById('install-btn');
+        const installBtn = document.getElementById('install-action-btn');
 
         window.addEventListener('beforeinstallprompt', (e) => {
-            // منع المتصفح من إظهار النافذة تلقائياً
             e.preventDefault();
             deferredPrompt = e;
-            // إظهار زر التثبيت الخاص بنا
-            installBtn.style.display = 'block';
         });
 
         installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
-                // إظهار نافذة التثبيت الرسمية للنظام
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    console.log('المستخدم وافق على تثبيت التطبيق');
-                }
                 deferredPrompt = null;
-                installBtn.style.display = 'none';
+            } else {
+                // إذا لم يكن الحدث جاهزاً بعد، ننبه المستخدم للإرشادات بالأسفل بلطف
+                alert("لتثبيت التطبيق بشكل مستقل ونظيف:\nاضغط على القائمة (⋮) أعلى المتصفح، ثم اختر 'إضافة إلى الشاشة الرئيسية' أو 'تثبيت التطبيق'.");
             }
         });
 
-        // تسجيل الـ Service Worker
+        // تسجيل الـ Service Worker لضمان استقرار التطبيق
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js');
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(() => console.log('Service Worker Registered'))
+                    .catch(err => console.log('Service Worker Failed', err));
             });
         }
     </script>
