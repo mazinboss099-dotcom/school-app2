@@ -6,6 +6,14 @@
     <title>مدرسة أبوذر الكودة</title>
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#0d6efd">
+    
+    <!-- كود التحويل التلقائي إذا فتح المستخدم التطبيق المثبت -->
+    <script>
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+            window.location.replace('/app.html');
+        }
+    </script>
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -60,7 +68,7 @@
         <h1>مدرسة أبوذر الكودة</h1>
         <p>مرحباً بك في البوابة الإلكترونية وتطبيق المدرسة الرسمي.</p>
         
-        <!-- زر التثبيت بالنص النظيف الذي طلبته -->
+        <!-- زر التثبيت -->
         <a href="/مدرسة أبوذر.apk" class="download-btn" download>📥 تثبيت التطبيق</a>
 
         <div class="note">
